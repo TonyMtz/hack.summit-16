@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/revel/revel"
-	"github.com/TonyMtz/hack.summit-16.service.git/app/models"
+	"github.com/TonyMtz/hack.summit-16.service/app/models"
 )
 
 type Cards struct {
