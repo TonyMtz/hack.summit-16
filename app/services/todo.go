@@ -31,6 +31,7 @@ func initProviders() {
 
 func init() {
 	revel.OnAppStart(initProviders)
+	users = make(map[string]models.User)
 }
 
 func Auth(provider string) string {
