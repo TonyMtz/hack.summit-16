@@ -23,3 +23,8 @@ func (c App) Callback(provider string) revel.Result {
 	token := services.Callback(provider, xtoken, c.Params)
 	return c.Redirect("/?xtoken=" + token)
 }
+
+func (c App) Cards(xtoken string) revel.Result {
+	cards := services.Cards(xtoken)
+	return c.RenderJson(cards)
+}

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/revel/revel"
 	"golang.org/x/oauth2"
+	"github.com/TonyMtz/hack.summit-16.service/app/models"
 )
 
 func init() {
@@ -52,3 +53,7 @@ func (w Wunderlist) Callback(params revel.Params) interface{} {
 /*func (c Wunderlist) connected() *models.User {
 	return c.RenderArgs["user"].(*models.User)
 }*/
+
+func (t Wunderlist) Cards(token interface{}) []models.Card {
+	return nil
+}

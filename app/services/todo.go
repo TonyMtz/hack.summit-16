@@ -10,6 +10,7 @@ import (
 type Provider interface {
 	RedirectUrl(xtoken string) string
 	Callback(params revel.Params) interface{} //TODO change params for map[string] string
+	Cards(token interface{}) []models.Card
 }
 
 var (
@@ -61,4 +62,16 @@ func Callback(provider string, xtoken string, params *revel.Params) string {
 		return xtoken //TODO change
 	}
 	return "Unknown provider"
+}
+
+func Cards(xtoken string) []models.Card {
+	u, ok := users[xtoken]
+	if !ok {
+		log.Print("error getting the cards")
+		return []models.Card{}
+	}
+	for p, t := range u.Token {
+		providers[p].Cards(t)
+	}
+	return nil //todo
 }

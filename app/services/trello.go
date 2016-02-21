@@ -5,6 +5,8 @@ import (
 	"github.com/mrjones/oauth"
 	"github.com/revel/revel"
 	"fmt"
+	"github.com/TonyMtz/hack.summit-16.service/app/models"
+	"io/ioutil"
 )
 
 type Trello struct {
@@ -68,4 +70,24 @@ func (t Trello) Callback(params revel.Params) interface{} {
 	content, _ := ioutil.ReadAll(response.Body)
 
 	return c.RenderText(string(content))*/
+}
+
+func (t Trello) Cards(token interface{}) []models.Card {
+	tkn, ok := token.(oauth.AccessToken)
+	if !ok {
+		log.Fatal("Castig error")
+	}
+	client, err := t.consumer.MakeHttpClient(&tkn)
+	if err != nil {
+		log.Fatal(err)
+	}
+	resp, err := client.Get("https://api.trello.com/1/members/me/cards")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	content, _ := ioutil.ReadAll(resp.Body)
+
+	log.Println(content)
+	return nil
 }
