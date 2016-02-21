@@ -1,7 +1,10 @@
 package services
 
+import "github.com/revel/revel"
+
 type Provider interface {
 	RedirectUrl() string
+	Callback(params revel.Params) string
 }
 
 var (
@@ -16,6 +19,13 @@ func init() {
 func Auth(provider string) string {
 	if p, ok := providers[provider]; ok {
 		return p.RedirectUrl()
+	}
+	return "Unkonw provider"
+}
+
+func Callback(provider string, params *revel.Params) string {
+	if p, ok := providers[provider]; ok {
+		return p.Callback(*params)
 	}
 	return "Unkonw provider"
 }

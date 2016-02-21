@@ -22,3 +22,7 @@ func (c App) Auth(provider string) revel.Result {
 
 	return c.RenderText(services.Auth(provider))
 }
+
+func (c App) Callback(provider string) revel.Result {
+	return c.RenderText(services.Callback(provider, c.Params))
+}

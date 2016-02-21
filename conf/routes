@@ -6,6 +6,7 @@ module:testrunner
 
 GET     /                                       App.Index
 GET     /:provider/auth                         App.Auth
+GET     /:provider/callback                     App.Callback
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

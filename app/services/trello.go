@@ -41,22 +41,22 @@ func (t Trello) RedirectUrl() string {
 	return url
 }
 
-/*func (t Trello) GetTrelloToken() revel.Result {
-	values := c.Params.Query
+func (t Trello) Callback(params revel.Params) string {
+	values := params.Query
 	verificationCode := values.Get("oauth_verifier")
 	tokenKey := values.Get("oauth_token")
 
-	accessToken, err := consumer.AuthorizeToken(tokens[tokenKey], verificationCode)
+	accessToken, err := t.consumer.AuthorizeToken(t.tokens[tokenKey], verificationCode)
+	if err != nil {
+		log.Fatal(err) //TODO throw?
+	}
+	return accessToken.Token + "  " + accessToken.Secret
+	/*client, err := t.consumer.MakeHttpClient(accessToken)
 	if err != nil {
 		log.Fatal(err)
-	}
+	}*/
 
-	client, err := consumer.MakeHttpClient(accessToken)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	response, err := client.Get("https://trello.com/1/members/me")
+	/*response, err := client.Get("https://trello.com/1/members/me")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -64,5 +64,5 @@ func (t Trello) RedirectUrl() string {
 
 	content, _ := ioutil.ReadAll(response.Body)
 
-	return c.RenderText(string(content))
-}*/
+	return c.RenderText(string(content))*/
+}
