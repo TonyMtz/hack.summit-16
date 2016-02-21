@@ -28,8 +28,11 @@ func NewWunderlist(key string, secret string) Wunderlist {
 	return w
 }
 
-func (w Wunderlist) RedirectUrl() string {
+func (w Wunderlist) RedirectUrl(xtoken string) string {
 	callbackUrl := fmt.Sprintf("http://%s:%v/wunderlist/callback", revel.HttpAddr, revel.HttpPort) //TODO common code
+	if xtoken != "" {
+		callbackUrl = callbackUrl + "?xtoken=" + xtoken
+	}
 	w.config.RedirectURL = callbackUrl
 	return w.config.AuthCodeURL("RANDOM")
 }

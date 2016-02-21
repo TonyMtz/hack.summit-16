@@ -20,5 +20,6 @@ func (c App) Auth(provider string) revel.Result {
 
 func (c App) Callback(provider string) revel.Result {
 	xtoken := c.Params.Get("xtoken")
-	return c.RenderText(services.Callback(provider, xtoken, c.Params))
+	token := services.Callback(provider, xtoken, c.Params)
+	return c.Redirect("/?xtoken=" + token)
 }

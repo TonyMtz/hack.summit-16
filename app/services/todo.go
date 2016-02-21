@@ -8,7 +8,7 @@ import (
 )
 
 type Provider interface {
-	RedirectUrl() string
+	RedirectUrl(xtoken string) string
 	Callback(params revel.Params) interface{} //TODO change params for map[string] string
 }
 
@@ -36,11 +36,7 @@ func init() {
 
 func Auth(provider string, xtoken string) string {
 	if p, ok := providers[provider]; ok {
-		url := p.RedirectUrl()
-		if xtoken != "" {
-			url = url + "?xtoken=" + xtoken
-		}
-		return url
+		return p.RedirectUrl(xtoken)
 	}
 	return "Unknown provider"
 }

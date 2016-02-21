@@ -31,8 +31,11 @@ func NewTrello(key string, secret string) Trello {
 	return t
 }
 
-func (t Trello) RedirectUrl() string {
+func (t Trello) RedirectUrl(xtoken string) string {
 	callbackUrl := fmt.Sprintf("http://%s:%v/trello/callback", revel.HttpAddr, revel.HttpPort)
+	if xtoken != "" {
+		callbackUrl = callbackUrl + "?xtoken=" + xtoken
+	}
 	token, url, err := t.consumer.GetRequestTokenAndUrl(callbackUrl)
 	if err != nil {
 		log.Fatal(err)
