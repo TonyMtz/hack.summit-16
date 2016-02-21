@@ -25,12 +25,12 @@ func Auth(provider string) string {
 	if p, ok := providers[provider]; ok {
 		return p.RedirectUrl()
 	}
-	return "Unkonw provider"
+	return "Unknown provider"
 }
 
 func Callback(provider string, params *revel.Params) string {
 	if p, ok := providers[provider]; ok {
 		return p.Callback(*params)
 	}
-	return "Unkonw provider"
+	return "Unknown provider"
 }
