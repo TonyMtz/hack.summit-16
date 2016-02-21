@@ -27,7 +27,7 @@ func NewTrello(key string, secret string) Trello {
 	t.consumer.AdditionalAuthorizationUrlParams["expiration"] = "never"
 	// Authorization Scope
 	t.consumer.AdditionalAuthorizationUrlParams["scope"] = "read"
-	t.consumer.Debug(true)
+	t.consumer.Debug(revel.DevMode)
 	return t
 }
 
