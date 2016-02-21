@@ -4,7 +4,8 @@
 
 module:testrunner
 
-GET     /                                       App.Index
+GET     /                                       Trello.RedirectUserToTrello
+GET     /maketoken                              Trello.GetTrelloToken
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
