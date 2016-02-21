@@ -6,7 +6,7 @@ import (
 	"github.com/revel/revel"
 	"fmt"
 	"github.com/TonyMtz/hack.summit-16.service/app/models"
-	"io/ioutil"
+	"encoding/json"
 )
 
 type Trello struct {
@@ -56,20 +56,12 @@ func (t Trello) Callback(params revel.Params) interface{} {
 		log.Fatal(err) //TODO throw?
 	}
 	return *accessToken
-	/*client, err := t.consumer.MakeHttpClient(accessToken)
-	if err != nil {
-		log.Fatal(err)
-	}*/
+}
 
-	/*response, err := client.Get("https://trello.com/1/members/me")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer response.Body.Close()
-
-	content, _ := ioutil.ReadAll(response.Body)
-
-	return c.RenderText(string(content))*/
+type TrelloCard struct {
+	Id   string           `json:id`
+	Name string        `json:name`
+	Desc string        `json:desc`
 }
 
 func (t Trello) Cards(token interface{}) []models.Card {
@@ -81,13 +73,32 @@ func (t Trello) Cards(token interface{}) []models.Card {
 	if err != nil {
 		log.Fatal(err)
 	}
-	resp, err := client.Get("https://api.trello.com/1/members/me/cards")
+	resp, err := client.Get("https://api.trello.com/1/members/me/cards?filter=visible&fields=name,desc")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer resp.Body.Close()
-	content, _ := ioutil.ReadAll(resp.Body)
 
-	log.Println(content)
+	var cards []models.Card
+
+	decoder := json.NewDecoder(resp.Body)
+
+	/*//TODO
+	content, _ := ioutil.ReadAll(resp.Body)
+	log.Println(string(content))
 	return nil
+	//TODO*/
+
+	var tr []TrelloCard
+	if err := decoder.Decode(&tr); err != nil {
+		log.Fatal(err)
+	}
+
+	for _, tc := range tr {
+		if tc.Desc != "" {
+			cards = append(cards, models.Card{Id:tc.Id, Title:tc.Name, Desc:tc.Desc, Provider:"trello" })
+		}
+	}
+
+	return cards
 }

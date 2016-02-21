@@ -70,8 +70,12 @@ func Cards(xtoken string) []models.Card {
 		log.Print("error getting the cards")
 		return []models.Card{}
 	}
+	var cards []models.Card
 	for p, t := range u.Token {
-		providers[p].Cards(t)
+		c := providers[p].Cards(t)
+		if len(c) > 0 {
+			cards = append(cards, c...)
+		}
 	}
-	return nil //todo
+	return cards
 }

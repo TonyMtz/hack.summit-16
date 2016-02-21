@@ -1,8 +1,9 @@
 package models
 
 type Card struct {
-	Id    int
-	Title string
-	Desc  string
-	Tags  []Tag
+	Id       string
+	Title    string
+	Desc     string
+	Provider string
+	Tags     []Tag
 }
