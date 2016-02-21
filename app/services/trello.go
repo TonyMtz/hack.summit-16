@@ -41,7 +41,7 @@ func (t Trello) RedirectUrl() string {
 	return url
 }
 
-func (t Trello) Callback(params revel.Params) string {
+func (t Trello) Callback(params revel.Params) interface{} {
 	values := params.Query
 	verificationCode := values.Get("oauth_verifier")
 	tokenKey := values.Get("oauth_token")
@@ -50,7 +50,7 @@ func (t Trello) Callback(params revel.Params) string {
 	if err != nil {
 		log.Fatal(err) //TODO throw?
 	}
-	return accessToken.Token + "  " + accessToken.Secret
+	return *accessToken
 	/*client, err := t.consumer.MakeHttpClient(accessToken)
 	if err != nil {
 		log.Fatal(err)

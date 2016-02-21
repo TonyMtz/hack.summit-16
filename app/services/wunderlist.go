@@ -34,7 +34,7 @@ func (w Wunderlist) RedirectUrl() string {
 	return w.config.AuthCodeURL("RANDOM")
 }
 
-func (w Wunderlist) Callback(params revel.Params) string {
+func (w Wunderlist) Callback(params revel.Params) interface {}{
 	values := params.Query
 	verificationCode := values.Get("code")
 
@@ -43,7 +43,7 @@ func (w Wunderlist) Callback(params revel.Params) string {
 		log.Fatal(err) //TODO throw?
 		return "Error!"
 	}
-	return token.AccessToken
+	return token
 }
 
 /*func (c Wunderlist) connected() *models.User {
