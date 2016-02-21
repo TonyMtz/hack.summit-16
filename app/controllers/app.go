@@ -14,13 +14,8 @@ func (c App) Index() revel.Result {
 }
 
 func (c App) Auth(provider string) revel.Result {
-	//xtoken := c.Request.Header.Get("xtoken")
-	//a := services.Auth{}
-	//a.Some()
-
-	//tokenUrl := fmt.Sprintf("http://%s/maketoken", c.Request.Host)
-
-	return c.RenderText(services.Auth(provider))
+	xtoken := c.Request.Header.Get("xtoken")
+	return c.RenderText(services.Auth(provider, xtoken))
 }
 
 func (c App) Callback(provider string) revel.Result {

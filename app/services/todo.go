@@ -34,9 +34,13 @@ func init() {
 	users = make(map[string]models.User)
 }
 
-func Auth(provider string) string {
+func Auth(provider string, xtoken string) string {
 	if p, ok := providers[provider]; ok {
-		return p.RedirectUrl()
+		url := p.RedirectUrl()
+		if xtoken != "" {
+			url = url + "?xtoken=" + xtoken
+		}
+		return url
 	}
 	return "Unknown provider"
 }

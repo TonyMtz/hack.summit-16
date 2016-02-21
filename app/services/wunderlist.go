@@ -34,7 +34,7 @@ func (w Wunderlist) RedirectUrl() string {
 	return w.config.AuthCodeURL("RANDOM")
 }
 
-func (w Wunderlist) Callback(params revel.Params) interface {}{
+func (w Wunderlist) Callback(params revel.Params) interface{} {
 	values := params.Query
 	verificationCode := values.Get("code")
 
