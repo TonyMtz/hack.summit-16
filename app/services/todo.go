@@ -25,7 +25,7 @@ func initProviders() {
 	)
 	providers["wunderlist"] = NewWunderlist(
 		revel.Config.StringDefault("wunderlist.key", "empty"),
-		revel.Config.StringDefault("wunderlist.key", "empty"),
+		revel.Config.StringDefault("wunderlist.secret", "empty"),
 	)
 }
 
