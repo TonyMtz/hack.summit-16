@@ -59,7 +59,7 @@ func (t Trello) Callback(params revel.Params) interface{} {
 }
 
 type TrelloCard struct {
-	Id   string           `json:id`
+	Id   string        `json:id`
 	Name string        `json:name`
 	Desc string        `json:desc`
 }

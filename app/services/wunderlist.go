@@ -6,6 +6,8 @@ import (
 	"github.com/revel/revel"
 	"golang.org/x/oauth2"
 	"github.com/TonyMtz/hack.summit-16.service/app/models"
+	"encoding/json"
+	"io/ioutil"
 )
 
 func init() {
@@ -47,13 +49,49 @@ func (w Wunderlist) Callback(params revel.Params) interface{} {
 		log.Fatal(err) //TODO throw?
 		return "Error!"
 	}
-	return token
+	return *token
 }
 
-/*func (c Wunderlist) connected() *models.User {
-	return c.RenderArgs["user"].(*models.User)
-}*/
+type WunderlistCard struct {
+	Id        int        `json:id`
+	TaskID    int        `json:task_id`
+	Content   string     `json:content`
+	CreatedAt string     `json:created_at`
+	UpdatedAt string     `json:updated_at`
+	Revision  string     `json:revision`
+}
 
-func (t Wunderlist) Cards(token interface{}) []models.Card {
+func (w Wunderlist) Cards(token interface{}) []models.Card {
+	tkn, ok := token.(oauth2.Token)
+	if !ok {
+		log.Fatal("Castig error")
+	}
+	client := w.config.Client(oauth2.NoContext, &tkn)
+	resp, err := client.Get("http://a.wunderlist.com/api/v1/notes")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	var cards []models.Card
+
+	decoder := json.NewDecoder(resp.Body)
+
+	//TODO comment
+	content, _ := ioutil.ReadAll(resp.Body)
+	log.Println(string(content))
 	return nil
+	//TODO comment
+
+	var wcs []WunderlistCard
+	if err := decoder.Decode(&wcs); err != nil {
+		log.Fatal(err)
+	}
+
+	for _, wc := range wcs {
+		if wc.Content != "" {
+			cards = append(cards, models.Card{Id:string(wc.Id), Desc:wc.Content, Provider:"wunderlist" })
+		}
+	}
+
+	return cards
 }
