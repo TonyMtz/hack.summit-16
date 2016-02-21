@@ -17,12 +17,12 @@ type Wunderlist struct {
 
 func NewWunderlist(key string, secret string) Wunderlist {
 	w := Wunderlist{config:&oauth2.Config{
-		ClientID:    key,
+		ClientID:     key,
 		ClientSecret: secret,
 		Scopes:       []string{},
 		Endpoint:     oauth2.Endpoint{
-			AuthURL:"https://www.wunderlist.com/oauth/authorize",
-			TokenURL:"https://www.wunderlist.com/oauth/access_token",
+			AuthURL:  "https://www.wunderlist.com/oauth/authorize",
+			TokenURL: "https://www.wunderlist.com/oauth/access_token",
 		},
 	}}
 	return w
