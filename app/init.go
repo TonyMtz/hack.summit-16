@@ -13,7 +13,7 @@ func init() {
 		revel.FlashFilter,             // Restore and write the flash cookie.
 		revel.ValidationFilter,        // Restore kept validation errors and save new ones from cookie.
 		revel.I18nFilter,              // Resolve the requested language
-		//TODO uncomment HeaderFilter,                  // Add some security based headers
+		HeaderFilter,                  // Add some security based headers
 		revel.InterceptorFilter,       // Run interceptors around the action.
 		revel.CompressFilter,          // Compress the result.
 		revel.ActionInvoker,           // Invoke the action.
@@ -34,5 +34,6 @@ var HeaderFilter = func(c *revel.Controller, fc []revel.Filter) {
 	c.Response.Out.Header().Add("X-XSS-Protection", "1; mode=block")
 	c.Response.Out.Header().Add("X-Content-Type-Options", "nosniff")
 	c.Response.Out.Header().Add("Access-Control-Allow-Origin", "*")
+	c.Response.Out.Header().Add("Access-Control-Allow-Headers", "X-TOKEN")
 	fc[0](c, fc[1:]) // Execute the next filter stage.
 }

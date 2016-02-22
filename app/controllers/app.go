@@ -15,13 +15,17 @@ func (c App) Index() revel.Result {
 
 func (c App) Auth(provider string) revel.Result {
 	xtoken := c.Request.Header.Get("xtoken")
-	return c.RenderText(services.Auth(provider, xtoken))
+	return c.RenderJson(services.Auth(provider, xtoken))
 }
 
 func (c App) Callback(provider string) revel.Result {
 	xtoken := c.Params.Get("xtoken")
 	token := services.Callback(provider, xtoken, c.Params)
-	return c.Redirect("/?xtoken=" + token)
+	return c.RenderJson(token)
+}
+
+func (c App) Options(provider string) revel.Result {
+	return c.RenderText("GET,POST,PUT,DELETE,OPTIONS") // better than empty
 }
 
 func (c App) Cards(xtoken string) revel.Result {

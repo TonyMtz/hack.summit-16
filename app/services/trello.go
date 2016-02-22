@@ -4,7 +4,6 @@ import (
 	"log"
 	"github.com/mrjones/oauth"
 	"github.com/revel/revel"
-	"fmt"
 	"github.com/TonyMtz/hack.summit-16.service/app/models"
 	"encoding/json"
 )
@@ -34,7 +33,7 @@ func NewTrello(key string, secret string) Trello {
 }
 
 func (t Trello) RedirectUrl(xtoken string) string {
-	callbackUrl := fmt.Sprintf("http://%s:%v/trello/callback", revel.HttpAddr, revel.HttpPort)
+	callbackUrl := "http://todoist.dev:8080/#/auth/trello/"
 	if xtoken != "" {
 		callbackUrl = callbackUrl + "?xtoken=" + xtoken
 	}

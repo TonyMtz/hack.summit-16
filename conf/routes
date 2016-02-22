@@ -6,6 +6,7 @@ module:testrunner
 
 GET     /                                       App.Index
 GET     /:provider/auth                         App.Auth
+OPTIONS /:provider/auth                         App.Options
 GET     /:provider/callback                     App.Callback
 GET     /cards/:xtoken                          App.Cards
 
